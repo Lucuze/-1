@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Yellow background -->
+    <path
+        android:fillColor="#FFF176"
+        android:pathData="M0,0 L200,0 L200,200 L0,200 Z" />
+
+    <!-- Star shape (five-pointed star) in orange -->
+    <path
+        android:fillColor="#FF6F00"
+        android:pathData="M100,20 L112,60 L155,60 L120,85 L133,125 L100,100 L67,125 L80,85 L45,60 L88,60 Z" />
+
+</vector>
