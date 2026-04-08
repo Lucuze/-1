@@ -4,5 +4,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">#FFF9C4</item>
+        <item name="android:statusBarColor">#FFD600</item>
+        <item name="android:navigationBarColor">#FFD600</item>
     </style>
 </resources>

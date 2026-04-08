@@ -13,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -28,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 전체화면 모드 (상태바 + 내비게이션 바 숨기기)
-        enableFullscreen();
-
         // WebView 생성 및 설정
         webView = new WebView(this);
         setContentView(webView);
+
+        // 전체화면 모드 (상태바 + 내비게이션 바 숨기기) — setContentView 이후 호출
+        enableFullscreen();
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -64,15 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
         // assets/index.html 로드
         webView.loadUrl("file:///android_asset/index.html");
-    }
 
-    @Override
-    public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
+        // 뒤로가기 콜백 (onBackPressed 대신)
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (webView != null && webView.canGoBack()) {
+                    webView.goBack();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
     @Override
