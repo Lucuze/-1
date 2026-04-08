@@ -1,7 +1,6 @@
 package com.hangul.adventure;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +13,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * 한글 모험대 - 메인 액티비티
  * WebView를 사용하여 assets 폴더의 웹 앱을 전체화면으로 표시합니다.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
 
@@ -54,7 +55,7 @@ public class MainActivity extends Activity {
                 if (url.startsWith("file:///android_asset/")) {
                     return false; // 앱 내부 파일은 WebView에서 처리
                 }
-                return false; // 기본적으로 WebView에서 처리
+                return false;
             }
         });
 
