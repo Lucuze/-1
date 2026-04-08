@@ -1,0 +1,766 @@
+/* 한글 모험대 - 스타일시트 */
+/* 지적장애 초등 저학년 최적화 UI */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --yellow: #FFE066;
+  --yellow-dark: #F5C200;
+  --green: #A8E063;
+  --green-dark: #6DB33F;
+  --blue: #74C0FC;
+  --blue-dark: #3B82F6;
+  --pink: #FFA8C5;
+  --pink-dark: #E75480;
+  --purple: #C3A8F5;
+  --bg: #FFF9EC;
+  --card-bg: #FFFFFF;
+  --text: #2D2D2D;
+  --radius: 20px;
+  --shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+body {
+  font-family: 'Nanum Gothic', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  font-size: 20px;
+}
+
+/* ===== 화면 전환 ===== */
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 900px;
+  min-height: 100vh;
+  padding: 24px 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 공통 제목 ===== */
+h1.app-title {
+  font-size: 48px;
+  font-weight: 900;
+  color: #E75480;
+  text-align: center;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.08);
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+h2.screen-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #3B6EA5;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* ===== 메인 화면 ===== */
+#main-screen .subtitle {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.name-section {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+.name-section label {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.name-section input {
+  width: 100%;
+  padding: 18px 24px;
+  font-size: 26px;
+  font-family: inherit;
+  border: 3px solid #ddd;
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.name-section input:focus {
+  border-color: var(--blue-dark);
+}
+
+/* 게임 모드 버튼 */
+.mode-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 40px;
+}
+
+.mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 28px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 26px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+  min-height: 90px;
+}
+
+.mode-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+.mode-btn .btn-icon {
+  font-size: 44px;
+  flex-shrink: 0;
+}
+
+.mode-btn.mode-1 { background: var(--yellow); color: #5A3E00; }
+.mode-btn.mode-2 { background: var(--green);  color: #1A4000; }
+.mode-btn.mode-3 { background: var(--blue);   color: #0A2860; }
+
+.teacher-btn {
+  margin-top: 8px;
+  padding: 14px 32px;
+  border: 2px solid #aaa;
+  border-radius: 50px;
+  background: #f0f0f0;
+  font-size: 18px;
+  font-family: inherit;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.teacher-btn:hover { background: #e0e0e0; }
+
+/* ===== 공통 버튼 ===== */
+.btn {
+  padding: 18px 36px;
+  border: none;
+  border-radius: 50px;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+  min-height: 64px;
+}
+
+.btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.btn-primary   { background: var(--blue-dark); color: #fff; }
+.btn-success   { background: var(--green-dark); color: #fff; }
+.btn-warning   { background: var(--yellow-dark); color: #5A3E00; }
+.btn-secondary { background: #e0e0e0; color: #444; }
+.btn-danger    { background: #FF6B6B; color: #fff; }
+
+/* ===== 게임 공통 헤더 ===== */
+.game-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.game-header .back-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 50px;
+  background: #eee;
+  font-size: 20px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #555;
+}
+
+.progress-bar-wrap {
+  flex: 1;
+  margin: 0 16px;
+  height: 16px;
+  background: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #74C0FC, #3B82F6);
+  border-radius: 8px;
+  transition: width 0.4s ease;
+}
+
+.score-badge {
+  background: var(--yellow);
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #5A3E00;
+  white-space: nowrap;
+}
+
+/* ===== 모드 1: 그림-단어 매칭 ===== */
+.picture-display {
+  font-size: 130px;
+  text-align: center;
+  margin: 20px 0 30px;
+  line-height: 1;
+  filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.15));
+  animation: bounceIn 0.4s ease;
+}
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.7); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.word-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.word-btn {
+  padding: 0;
+  min-height: 100px;
+  border: 4px solid transparent;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  font-size: 30px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, border-color 0.2s, background 0.2s;
+}
+
+.word-btn:active { transform: scale(0.96); }
+
+.word-btn.correct {
+  border-color: #2ECC71;
+  background: #EAFAF1;
+  color: #1A8040;
+}
+
+.word-btn.wrong {
+  border-color: #E74C3C;
+  background: #FDEDEC;
+  color: #A93226;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-10px); }
+  40%       { transform: translateX(10px); }
+  60%       { transform: translateX(-8px); }
+  80%       { transform: translateX(8px); }
+}
+
+/* ===== 모드 2: 글자 조각 맞추기 ===== */
+.syllable-target {
+  width: 100%;
+  max-width: 560px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 3px dashed #aaa;
+  padding: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.syllable-target .target-slot {
+  width: 90px;
+  height: 90px;
+  background: #F0F8FF;
+  border-radius: 14px;
+  border: 3px solid #74C0FC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--blue-dark);
+  transition: all 0.2s;
+}
+
+.syllable-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  max-width: 560px;
+  margin-bottom: 20px;
+}
+
+.syllable-card {
+  width: 100px;
+  height: 100px;
+  background: var(--yellow);
+  border: none;
+  border-radius: 18px;
+  font-size: 36px;
+  font-weight: 900;
+  font-family: inherit;
+  color: #5A3E00;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.syllable-card:active { transform: scale(0.93); }
+.syllable-card.used  { opacity: 0.25; cursor: not-allowed; }
+
+.syllable-hint {
+  font-size: 20px;
+  color: #888;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.syllable-reset-btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 50px;
+  background: #FFD6E0;
+  font-size: 18px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #C0004E;
+  font-weight: 700;
+}
+
+/* ===== 모드 3: 문장 완성하기 ===== */
+.sentence-display {
+  width: 100%;
+  max-width: 680px;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.6;
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+  color: var(--text);
+}
+
+.sentence-display .blank {
+  display: inline-block;
+  min-width: 100px;
+  border-bottom: 4px solid var(--blue-dark);
+  color: var(--blue-dark);
+  font-weight: 900;
+  padding: 0 6px;
+}
+
+.choice-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.choice-btn {
+  padding: 22px 28px;
+  border: 4px solid transparent;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  font-size: 28px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, border-color 0.2s;
+  min-height: 80px;
+}
+
+.choice-btn:active { transform: scale(0.97); }
+
+.choice-btn.correct {
+  border-color: #2ECC71;
+  background: #EAFAF1;
+  color: #1A8040;
+}
+
+.choice-btn.wrong {
+  border-color: #E74C3C;
+  background: #FDEDEC;
+  color: #A93226;
+  animation: shake 0.4s ease;
+}
+
+/* ===== 피드백 오버레이 ===== */
+.feedback-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.feedback-overlay.show { opacity: 1; }
+
+.feedback-emoji {
+  font-size: 100px;
+  animation: popIn 0.4s ease;
+}
+
+.feedback-text {
+  font-size: 42px;
+  font-weight: 900;
+  margin-top: 16px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== 축하 파티클 ===== */
+.confetti-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 300;
+  overflow: hidden;
+}
+
+.confetti-particle {
+  position: absolute;
+  top: -20px;
+  font-size: 28px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== 결과 화면 ===== */
+.result-card {
+  width: 100%;
+  max-width: 580px;
+  background: #fff;
+  border-radius: 28px;
+  padding: 36px 32px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.result-card .student-name {
+  font-size: 28px;
+  font-weight: 800;
+  color: #3B6EA5;
+  margin-bottom: 20px;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.stat-item {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 18px 24px;
+  min-width: 120px;
+}
+
+.stat-item .stat-label {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.stat-item .stat-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.result-stars {
+  font-size: 60px;
+  margin-bottom: 16px;
+  letter-spacing: 8px;
+}
+
+.result-message {
+  font-size: 24px;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 24px;
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ===== 교사 모드 ===== */
+.teacher-panel {
+  width: 100%;
+  max-width: 760px;
+}
+
+.record-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.record-item {
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px 22px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.record-item .rec-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #333;
+  min-width: 100px;
+}
+
+.record-item .rec-mode {
+  font-size: 16px;
+  color: #666;
+  background: #f0f0f0;
+  border-radius: 50px;
+  padding: 4px 14px;
+}
+
+.record-item .rec-score {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.rec-score.high { color: #2ECC71; }
+.rec-score.mid  { color: #F39C12; }
+.rec-score.low  { color: #E74C3C; }
+
+.record-item .rec-date {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.no-records {
+  text-align: center;
+  color: #aaa;
+  font-size: 22px;
+  padding: 40px;
+}
+
+.teacher-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ===== 비밀번호 모달 ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 28px;
+  padding: 36px 40px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+
+.modal-box h3 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 28px;
+  font-family: inherit;
+  border: 3px solid #ddd;
+  border-radius: 16px;
+  text-align: center;
+  letter-spacing: 10px;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+.modal-box input:focus { border-color: var(--blue-dark); }
+
+.modal-box .modal-error {
+  color: #E74C3C;
+  font-size: 18px;
+  margin-bottom: 12px;
+  min-height: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ===== 교사 결과 보기 ===== */
+.teacher-result-view {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+  padding: 40px 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.teacher-result-view h2 {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.teacher-result-view .big-score {
+  font-size: 90px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.teacher-result-view .big-stars {
+  font-size: 64px;
+  margin-bottom: 20px;
+  letter-spacing: 10px;
+}
+
+.teacher-result-view .close-teacher-view {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  padding: 12px 24px;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 50px;
+  background: transparent;
+  color: #fff;
+  font-size: 18px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 480px) {
+  h1.app-title  { font-size: 36px; }
+  h2.screen-title { font-size: 26px; }
+  .picture-display { font-size: 100px; }
+  .word-btn     { font-size: 26px; min-height: 88px; }
+  .syllable-card { width: 80px; height: 80px; font-size: 32px; }
+  .sentence-display { font-size: 24px; padding: 20px; }
+  .choice-btn   { font-size: 24px; min-height: 80px; }
+}
