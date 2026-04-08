@@ -2,14 +2,55 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#FFF9EC" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Android Chrome 테마 색상 -->
+  <meta name="theme-color" content="#FFD600" />
+
+  <!-- iOS PWA 지원 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="한글모험대" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
   <title>한글 모험대 🌟</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Service Worker 등록 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.warn('SW registration failed:', err));
+      });
+    }
+  </script>
 </head>
 <body>
+
+<!-- ===================================================
+     스플래시 화면 (PWA 로딩 시 표시)
+==================================================== -->
+<div id="splash-screen">
+  <div class="splash-content">
+    <div class="splash-icon">🌟</div>
+    <h1>한글 모험대</h1>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     설치 유도 배너 (Android Chrome)
+==================================================== -->
+<button id="install-btn" style="display:none;" aria-label="앱으로 설치하기">📲 앱으로 설치하기</button>
 
 <!-- ===================================================
      피드백 / 파티클 오버레이 (항상 DOM에 존재)

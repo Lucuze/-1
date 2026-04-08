@@ -659,7 +659,44 @@ $('btn-clear-records').addEventListener('click', () => {
 
 $('btn-back-teacher').addEventListener('click', initMain);
 
-// ── 초기화 ────────────────────────────────────────────
+// ── PWA: 스플래시 화면 ────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initMain();
+
+  // 1.5초 후 스플래시 화면 fadeOut (CSS --splash-fade: 0.5s 와 동기화)
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    const FADE_MS = 500;
+    setTimeout(() => {
+      splash.classList.add('hidden');
+      setTimeout(() => { splash.style.display = 'none'; }, FADE_MS);
+    }, 1500);
+  }
+});
+
+// ── PWA: 설치 유도 배너 ────────────────────────────────
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.display = 'block';
+});
+
+document.getElementById('install-btn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const result = await deferredPrompt.userChoice;
+  if (result.outcome === 'accepted') {
+    const btn = document.getElementById('install-btn');
+    if (btn) btn.style.display = 'none';
+  }
+  deferredPrompt = null;
+});
+
+window.addEventListener('appinstalled', () => {
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.display = 'none';
+  deferredPrompt = null;
 });

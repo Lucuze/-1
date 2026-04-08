@@ -58,15 +58,53 @@
 - Web Audio API (정답/오답 효과음)
 - localStorage (기록 누적 저장)
 - Google Fonts (Nanum Gothic)
+- **PWA** (Progressive Web App) – 오프라인 지원 / 홈 화면 설치
+
+---
+
+## 📱 앱 설치 방법
+
+### 갤럭시 태블릿 / 안드로이드 스마트폰
+1. **Chrome 브라우저**로 앱 URL 접속
+2. 화면 하단의 **"📲 앱으로 설치하기"** 버튼 클릭
+   - 또는 Chrome 메뉴(⋮) → **"홈 화면에 추가"** 클릭
+3. **"설치"** 확인
+4. 홈 화면에 **"한글모험대"** 아이콘 생성 완료!
+5. 아이콘을 탭하면 **전체화면**으로 실행됩니다 🎮
+
+### iPhone / iPad (iOS Safari)
+1. Safari로 앱 URL 접속
+2. 하단 공유 버튼(□↑) 탭
+3. **"홈 화면에 추가"** 선택
+4. 이름 확인 후 **"추가"** 탭
+
+### GitHub Pages로 배포하기 (교사용)
+1. GitHub 저장소 **Settings → Pages**
+2. Branch: `main`, 폴더: `/ (root)` 선택
+3. 생성된 URL을 학생 태블릿 Chrome에서 접속
+4. 위 설치 방법대로 설치
+
+> **참고**: PWA는 HTTPS 또는 localhost에서만 동작합니다. GitHub Pages 배포 시 자동으로 HTTPS가 적용됩니다.
 
 ---
 
 ## 📂 파일 구조
 
 ```
-index.html   ← 메인 진입점 (모든 화면 포함)
-style.css    ← 태블릿 최적화 스타일
-game.js      ← 게임 로직 및 교사 모드
-README.md    ← 앱 소개 및 사용 방법
+index.html          ← PWA 메타태그 추가된 메인 파일
+style.css           ← 스타일 + 스플래시/설치 버튼 스타일
+game.js             ← 게임 로직 + 설치 프롬프트 로직
+manifest.json       ← PWA 매니페스트
+sw.js               ← 서비스 워커 (오프라인 캐싱)
+generate_icons.py   ← 아이콘 생성 스크립트
+icons/
+  icon.svg          ← 소스 SVG 아이콘
+  icon-72.png
+  icon-96.png
+  icon-128.png
+  icon-144.png
+  icon-192.png      ← 주요 아이콘
+  icon-512.png      ← 스토어/스플래시용
+README.md           ← 앱 소개 및 설치 방법
 ```
 
