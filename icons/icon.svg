@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#FFD600"/>
+  <!-- Inner soft circle -->
+  <circle cx="256" cy="256" r="220" fill="#FFF9C4"/>
+  <!-- Star shape -->
+  <polygon points="256,80 290,185 400,185 314,248 344,355 256,295 168,355 198,248 112,185 222,185"
+    fill="#FFD600" stroke="#F5A000" stroke-width="4"/>
+  <!-- Korean text "한글" -->
+  <text x="256" y="390" text-anchor="middle" font-family="'Malgun Gothic','Apple SD Gothic Neo','Nanum Gothic',sans-serif"
+    font-size="100" font-weight="900" fill="#E75480" letter-spacing="-2">한글</text>
+</svg>
