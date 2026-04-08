@@ -13,7 +13,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -65,19 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
         // assets/index.html 로드
         webView.loadUrl("file:///android_asset/index.html");
+    }
 
-        // 뒤로가기 콜백 (onBackPressed 대신)
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (webView != null && webView.canGoBack()) {
-                    webView.goBack();
-                } else {
-                    setEnabled(false);
-                    getOnBackPressedDispatcher().onBackPressed();
-                }
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
