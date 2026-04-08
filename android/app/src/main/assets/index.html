@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Android Chrome 테마 색상 -->
+  <meta name="theme-color" content="#FFD600" />
+
+  <!-- iOS PWA 지원 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="한글모험대" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <title>한글 모험대 🌟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Service Worker 등록 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.warn('SW registration failed:', err));
+      });
+    }
+  </script>
+</head>
+<body>
+
+<!-- ===================================================
+     스플래시 화면 (PWA 로딩 시 표시)
+==================================================== -->
+<div id="splash-screen">
+  <div class="splash-content">
+    <div class="splash-icon">🌟</div>
+    <h1>한글 모험대</h1>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     설치 유도 배너 (Android Chrome)
+==================================================== -->
+<button id="install-btn" style="display:none;" aria-label="앱으로 설치하기">📲 앱으로 설치하기</button>
+
+<!-- ===================================================
+     피드백 / 파티클 오버레이 (항상 DOM에 존재)
+==================================================== -->
+<div class="feedback-overlay" id="feedback-overlay">
+  <span class="feedback-emoji"></span>
+  <span class="feedback-text"></span>
+</div>
+
+<div class="confetti-container" id="confetti-container"></div>
+
+<!-- 교사용 결과 전체화면 -->
+<div class="teacher-result-view" id="teacher-result-view" style="display:none;">
+  <button class="close-teacher-view" id="close-teacher-view">✕ 닫기</button>
+  <h2 class="tv-name"></h2>
+  <div class="big-score"></div>
+  <div class="big-stars"></div>
+  <p style="font-size:22px;opacity:0.8;margin-top:12px;">교사에게 보여주세요 📋</p>
+</div>
+
+<!-- 비밀번호 모달 -->
+<div class="modal-overlay" id="pw-modal" style="display:none;">
+  <div class="modal-box">
+    <h3>🔐 교사 모드</h3>
+    <input type="password" id="pw-input" maxlength="4" inputmode="numeric" placeholder="••••" aria-label="교사 모드 비밀번호" />
+    <div class="modal-error" id="pw-error"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="pw-cancel">취소</button>
+      <button class="btn btn-primary"   id="pw-confirm">확인</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================
+     메인 화면
+==================================================== -->
+<section class="screen active" id="main-screen">
+  <h1 class="app-title">한글 모험대 🌟</h1>
+  <p class="subtitle">재미있는 한글 게임을 해봐요!</p>
+
+  <div class="name-section">
+    <label for="student-name-input">👤 내 이름</label>
+    <input
+      type="text"
+      id="student-name-input"
+      placeholder="이름을 써요"
+      maxlength="10"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="mode-buttons">
+    <button class="mode-btn mode-1" onclick="startGame(1)">
+      <span class="btn-icon">🖼️</span>
+      <span>그림-단어 맞추기</span>
+    </button>
+    <button class="mode-btn mode-2" onclick="startGame(2)">
+      <span class="btn-icon">🔤</span>
+      <span>글자 조각 맞추기</span>
+    </button>
+    <button class="mode-btn mode-3" onclick="startGame(3)">
+      <span class="btn-icon">📝</span>
+      <span>문장 완성하기</span>
+    </button>
+  </div>
+
+  <button class="teacher-btn" id="btn-teacher-mode">🔐 교사 모드</button>
+</section>
+
+
+<!-- ===================================================
+     모드 1: 그림-단어 매칭
+==================================================== -->
+<section class="screen" id="mode1-screen">
+  <div class="game-header" id="mode1-header">
+    <button class="back-btn" id="btn-back-m1">← 뒤로</button>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" style="width:0%"></div>
+    </div>
+    <div class="score-badge">0/0 ✅</div>
+  </div>
+
+  <h2 class="screen-title">🖼️ 그림을 보고 단어를 골라요!</h2>
+
+  <div class="picture-display" id="m1-picture">🍎</div>
+
+  <div class="word-grid" id="m1-word-grid">
+    <!-- 버튼 동적 생성 -->
+  </div>
+</section>
+
+
+<!-- ===================================================
+     모드 2: 글자 조각 맞추기
+==================================================== -->
+<section class="screen" id="mode2-screen">
+  <div class="game-header" id="mode2-header">
+    <button class="back-btn" id="btn-back-m2">← 뒤로</button>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" style="width:0%"></div>
+    </div>
+    <div class="score-badge">0/0 ✅</div>
+  </div>
+
+  <h2 class="screen-title">🔤 글자 조각을 순서대로 눌러요!</h2>
+
+  <div style="font-size:80px;text-align:center;margin-bottom:12px;" id="m2-emoji">🍎</div>
+  <p class="syllable-hint" id="m2-hint"></p>
+
+  <div class="syllable-target" id="m2-target">
+    <!-- 슬롯 동적 생성 -->
+  </div>
+
+  <div class="syllable-pool" id="m2-pool">
+    <!-- 카드 동적 생성 -->
+  </div>
+
+  <button class="syllable-reset-btn" id="m2-reset-btn">🔄 다시 해볼게요</button>
+</section>
+
+
+<!-- ===================================================
+     모드 3: 문장 완성하기
+==================================================== -->
+<section class="screen" id="mode3-screen">
+  <div class="game-header" id="mode3-header">
+    <button class="back-btn" id="btn-back-m3">← 뒤로</button>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" style="width:0%"></div>
+    </div>
+    <div class="score-badge">0/0 ✅</div>
+  </div>
+
+  <h2 class="screen-title">📝 빈칸에 들어갈 말을 골라요!</h2>
+
+  <div class="sentence-display" id="m3-sentence">
+    나는 <span class="blank">___</span> 를 먹었어요.
+  </div>
+
+  <div class="choice-buttons" id="m3-choices">
+    <!-- 버튼 동적 생성 -->
+  </div>
+</section>
+
+
+<!-- ===================================================
+     결과 화면
+==================================================== -->
+<section class="screen" id="result-screen">
+  <button class="back-btn" id="btn-back-result" style="align-self:flex-start;margin-bottom:16px;">← 처음으로</button>
+
+  <h2 class="screen-title">🎉 결과 발표!</h2>
+
+  <div class="result-card">
+    <div class="result-stars" id="result-stars">⭐⭐⭐</div>
+    <div class="student-name" id="result-name">홍길동 학생</div>
+
+    <div class="result-stats">
+      <div class="stat-item">
+        <div class="stat-label">총 문제</div>
+        <div class="stat-value" id="result-total">10</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">맞은 개수</div>
+        <div class="stat-value" id="result-correct">8</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">정답률</div>
+        <div class="stat-value" id="result-rate">80%</div>
+      </div>
+    </div>
+
+    <div class="result-message" id="result-message">잘했어요!</div>
+  </div>
+
+  <div class="result-actions">
+    <button class="btn btn-success"   id="btn-show-teacher">📋 교사에게 보여주기</button>
+    <button class="btn btn-primary"   id="btn-retry">🔄 다시 하기</button>
+    <button class="btn btn-secondary" id="btn-other-game">🏠 다른 게임 하기</button>
+  </div>
+</section>
+
+
+<!-- ===================================================
+     교사 모드 화면
+==================================================== -->
+<section class="screen" id="teacher-screen">
+  <button class="back-btn" id="btn-back-teacher" style="align-self:flex-start;margin-bottom:16px;">← 뒤로</button>
+
+  <h2 class="screen-title">👩‍🏫 교사 모드</h2>
+
+  <div class="teacher-panel">
+    <div class="record-list" id="record-list">
+      <p class="no-records">아직 기록이 없어요.</p>
+    </div>
+
+    <div class="teacher-actions" style="align-self:center;">
+      <button class="btn btn-danger" id="btn-clear-records">🗑️ 기록 전체 삭제</button>
+      <button class="btn btn-secondary" id="btn-back-teacher-2" onclick="document.getElementById('btn-back-teacher').click()">← 메인으로</button>
+    </div>
+  </div>
+</section>
+
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -59,12 +59,30 @@
 - localStorage (기록 누적 저장)
 - Google Fonts (Nanum Gothic)
 - **PWA** (Progressive Web App) – 오프라인 지원 / 홈 화면 설치
+- **Android APK** – WebView 기반 네이티브 앱 (GitHub Actions 자동 빌드)
 
 ---
 
 ## 📱 앱 설치 방법
 
-### 갤럭시 태블릿 / 안드로이드 스마트폰
+### 방법 1: APK 파일로 직접 설치 (추천 ⭐)
+
+가장 간단한 방법입니다. APK 파일 하나만 다운로드하면 바로 설치됩니다.
+
+1. GitHub 저장소의 **[Actions](../../actions)** 탭으로 이동
+2. 가장 최근 성공한 **"Build APK"** 워크플로 클릭
+3. 하단 **Artifacts** 섹션에서 **`hangul-adventure-apk`** 다운로드
+4. 다운로드된 ZIP 파일 압축 해제 → **`hangul-adventure.apk`** 파일 확인
+5. 갤럭시 태블릿에 APK 파일 전송 (USB, 카카오톡, Google Drive 등)
+6. 태블릿에서 APK 파일 실행 → **"설치"** 버튼 클릭
+7. 홈 화면에 **"한글 모험대"** 아이콘 생성 완료! 🎮
+
+> **참고**: 처음 설치 시 "출처를 알 수 없는 앱" 설치 허용이 필요할 수 있습니다.
+> - **설정 → 생체 인식 및 보안 → 출처를 알 수 없는 앱 설치** 에서 허용
+
+### 방법 2: PWA 설치 (Chrome 브라우저)
+
+#### 갤럭시 태블릿 / 안드로이드 스마트폰
 1. **Chrome 브라우저**로 앱 URL 접속
 2. 화면 하단의 **"📲 앱으로 설치하기"** 버튼 클릭
    - 또는 Chrome 메뉴(⋮) → **"홈 화면에 추가"** 클릭
@@ -72,7 +90,7 @@
 4. 홈 화면에 **"한글모험대"** 아이콘 생성 완료!
 5. 아이콘을 탭하면 **전체화면**으로 실행됩니다 🎮
 
-### iPhone / iPad (iOS Safari)
+#### iPhone / iPad (iOS Safari)
 1. Safari로 앱 URL 접속
 2. 하단 공유 버튼(□↑) 탭
 3. **"홈 화면에 추가"** 선택
@@ -99,12 +117,39 @@ sw.js               ← 서비스 워커 (오프라인 캐싱)
 generate_icons.py   ← 아이콘 생성 스크립트
 icons/
   icon.svg          ← 소스 SVG 아이콘
-  icon-72.png
-  icon-96.png
-  icon-128.png
-  icon-144.png
-  icon-192.png      ← 주요 아이콘
-  icon-512.png      ← 스토어/스플래시용
+  icon-72.png ~ icon-512.png
+android/            ← Android APK 프로젝트
+  app/
+    src/main/
+      java/…/MainActivity.java  ← WebView 래퍼
+      AndroidManifest.xml
+      assets/       ← 웹 파일 복사본 (빌드 시 자동 동기화)
+      res/          ← 앱 아이콘, 테마
+  build.gradle
+  gradlew
+.github/workflows/
+  build-apk.yml     ← APK 자동 빌드 워크플로
 README.md           ← 앱 소개 및 설치 방법
+```
+
+---
+
+## 🔧 APK 로컬 빌드 방법 (개발자용)
+
+Android SDK와 JDK 17이 설치되어 있으면 로컬에서 APK를 직접 빌드할 수 있습니다.
+
+```bash
+# 1. 웹 파일을 Android assets 폴더로 복사
+mkdir -p android/app/src/main/assets/icons
+cp index.html style.css game.js manifest.json sw.js android/app/src/main/assets/
+cp icons/*.png icons/icon.svg android/app/src/main/assets/icons/
+
+# 2. APK 빌드
+cd android
+chmod +x gradlew
+./gradlew assembleDebug
+
+# 3. 생성된 APK 확인
+ls -la app/build/outputs/apk/debug/app-debug.apk
 ```
 
