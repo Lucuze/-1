@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌟 특수교육 배움터 🌟</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== MAIN MENU ===== -->
+  <div id="screen-menu" class="screen active">
+    <header class="main-header">
+      <div class="star-row" aria-hidden="true">⭐ ⭐ ⭐ ⭐ ⭐</div>
+      <h1>🌟 배움터 🌟</h1>
+      <p class="subtitle">함께 즐겁게 배워요!</p>
+    </header>
+
+    <div class="menu-grid">
+      <button class="menu-btn btn-color" onclick="showScreen('screen-color')">
+        <span class="btn-icon">🎨</span>
+        <span class="btn-label">색깔 맞추기</span>
+      </button>
+      <button class="menu-btn btn-number" onclick="showScreen('screen-number')">
+        <span class="btn-icon">🔢</span>
+        <span class="btn-label">숫자 세기</span>
+      </button>
+      <button class="menu-btn btn-word" onclick="showScreen('screen-word')">
+        <span class="btn-icon">📖</span>
+        <span class="btn-label">단어 배우기</span>
+      </button>
+      <button class="menu-btn btn-ai" onclick="showScreen('screen-ai')">
+        <span class="btn-icon">🤖</span>
+        <span class="btn-label">AI 도우미</span>
+      </button>
+    </div>
+
+    <footer class="main-footer">
+      <p>⭐ 오늘도 잘 할 수 있어요! ⭐</p>
+    </footer>
+  </div>
+
+  <!-- ===== COLOR MATCHING GAME ===== -->
+  <div id="screen-color" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="showScreen('screen-menu')" aria-label="메인 화면으로 돌아가기">← 돌아가기</button>
+      <h2>🎨 색깔 맞추기</h2>
+      <div class="score-box">⭐ <span id="color-score">0</span>점</div>
+    </div>
+
+    <div class="game-body">
+      <p class="game-instruction" id="color-instruction">아래에서 같은 색을 골라보세요!</p>
+      <div class="target-color-wrap">
+        <div id="target-color-box" class="target-color-box" aria-label="목표 색깔"></div>
+        <p id="target-color-name" class="target-color-name"></p>
+      </div>
+
+      <div id="color-choices" class="color-choices" role="group" aria-label="색깔 선택"></div>
+
+      <div id="color-feedback" class="feedback-box hidden" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- ===== NUMBER COUNTING ACTIVITY ===== -->
+  <div id="screen-number" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="showScreen('screen-menu')" aria-label="메인 화면으로 돌아가기">← 돌아가기</button>
+      <h2>🔢 숫자 세기</h2>
+      <div class="score-box">⭐ <span id="number-score">0</span>점</div>
+    </div>
+
+    <div class="game-body">
+      <p class="game-instruction">이모지를 세어보고 맞는 숫자를 골라요!</p>
+      <div id="emoji-display" class="emoji-display" aria-label="세야 할 이모지들"></div>
+      <p id="number-question" class="number-question"></p>
+      <div id="number-choices" class="number-choices" role="group" aria-label="숫자 선택"></div>
+      <div id="number-feedback" class="feedback-box hidden" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- ===== WORD LEARNING ===== -->
+  <div id="screen-word" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="showScreen('screen-menu')" aria-label="메인 화면으로 돌아가기">← 돌아가기</button>
+      <h2>📖 단어 배우기</h2>
+      <div class="score-box">⭐ <span id="word-score">0</span>점</div>
+    </div>
+
+    <div class="game-body">
+      <p class="game-instruction">그림을 보고 맞는 단어를 골라요!</p>
+      <div id="word-picture" class="word-picture" aria-label="그림"></div>
+      <div id="word-choices" class="word-choices" role="group" aria-label="단어 선택"></div>
+      <div id="word-feedback" class="feedback-box hidden" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- ===== AI ASSISTANT ===== -->
+  <div id="screen-ai" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="showScreen('screen-menu')" aria-label="메인 화면으로 돌아가기">← 돌아가기</button>
+      <h2>🤖 AI 도우미</h2>
+    </div>
+
+    <div class="ai-body">
+      <div class="ai-avatar-row">
+        <div class="ai-avatar" aria-hidden="true">🤖</div>
+        <div class="ai-bubble" id="ai-greeting">
+          안녕! 나는 AI 도우미야. 무엇이든 물어봐! 😊
+        </div>
+      </div>
+
+      <div id="ai-chat-log" class="ai-chat-log" role="log" aria-live="polite"></div>
+
+      <div class="ai-quick-btns" aria-label="빠른 질문">
+        <p class="quick-label">빠른 질문:</p>
+        <button class="quick-btn" onclick="aiQuickAsk('색깔에 대해 알려줘!')">🎨 색깔</button>
+        <button class="quick-btn" onclick="aiQuickAsk('숫자를 어떻게 세나요?')">🔢 숫자</button>
+        <button class="quick-btn" onclick="aiQuickAsk('동물 이름을 알려줘!')">🐶 동물</button>
+        <button class="quick-btn" onclick="aiQuickAsk('과일 이름을 알려줘!')">🍎 과일</button>
+        <button class="quick-btn" onclick="aiQuickAsk('칭찬해 줘!')">🌟 칭찬</button>
+      </div>
+
+      <div class="ai-input-row">
+        <input
+          type="text"
+          id="ai-input"
+          class="ai-input"
+          placeholder="무엇이든 물어보세요…"
+          maxlength="100"
+          aria-label="질문 입력"
+          onkeydown="if(event.key==='Enter') aiSend()"
+        />
+        <button class="ai-send-btn" onclick="aiSend()" aria-label="전송">전송 ✉️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CELEBRATION OVERLAY ===== -->
+  <div id="celebration" class="celebration hidden" aria-hidden="true">
+    <div class="celebration-content">
+      <div class="celebration-emoji" id="celebration-emoji">🎉</div>
+      <p class="celebration-text" id="celebration-text">잘 했어요!</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
